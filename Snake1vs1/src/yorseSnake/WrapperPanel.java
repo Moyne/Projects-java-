@@ -10,16 +10,18 @@ import javax.swing.JPanel;
 public class WrapperPanel extends JPanel {
 	
 	private JLabel playerScore;
+	private int playerPoints=0;
+	private int opponentPoints=0;
 	private JLabel opponentScore;
 	private JPanel header;
 	private JPanel gamePanel;
 	private JButton start;
 	private Socket socket;
 	
-	public WrapperPanel(Socket socket) {
-		playerScore=new JLabel("Your score: 0");
-		opponentScore=new JLabel("Opponent score: 0");
-		gamePanel=new GamePanel(socket);
+	public WrapperPanel(Socket socket,String startDirection,String ball) {
+		playerScore=new JLabel("Your score: "+playerPoints);
+		opponentScore=new JLabel("Opponent score: "+opponentPoints);
+		gamePanel=new GamePanel(socket,startDirection,ball,this);
 		// Setting up the header panel, giving it a BorderLayout
 		header=new JPanel();
 		header.setLayout(new BorderLayout());
@@ -43,5 +45,15 @@ public class WrapperPanel extends JPanel {
 
 	public void start() {
 		((GamePanel) gamePanel).start();
+	}
+	
+	public void playerScored() {
+		playerPoints++;
+		playerScore.setText("Your score: "+playerPoints);
+	}
+
+	public void opponentScored() {
+		opponentPoints++;
+		opponentScore.setText("Opponent score: "+opponentPoints);
 	}
 }
